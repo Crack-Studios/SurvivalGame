@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace inventory
@@ -10,6 +11,8 @@ namespace inventory
         public bool isOpen = true;
 
         public List<ItemStack> invItems;
+
+        public Texture slotTexture;
 
         public void Update()
         {
@@ -23,22 +26,46 @@ namespace inventory
         {
             if (isOpen)
             {
-                GUI.Window(0,new Rect(10,10,512,256),invWindowFunc, "Inventory");
+                
+                GUI.BeginGroup(new Rect(100,10,Screen.width-300,Screen.height-200));
+                
+                for (int i = 0; i < invItems.Count; i++)
+                {
+                    /*if (GUI.Button(new Rect(i*136,15,128,128), invItems[i].name))
+                    {
+                        Debug.Log(invItems[i].name + " :: PRESSED");
+                    }*/
+
+                
+                
+                    GUI.BeginGroup(new Rect(i*36,24,32,32), new GUIContent("","Item name: "+invItems[i].name+"\n\n\n"+String.Join("\n",invItems[i].description)));
+                
+                    GUI.DrawTexture(new Rect(0,0,32,32), slotTexture, ScaleMode.StretchToFill);
+                    if (invItems[i].itemIcon)
+                    {
+                        GUI.DrawTexture(new Rect(0,0,32,32), invItems[i].itemIcon);
+                    }
+                    else
+                    {
+                        GUI.Label(new Rect(0,0,32,32),invItems[i].name);
+                    }
+                
+                
+                    GUI.EndGroup();
+                
+                
+                
+                }
+                
+                GUI.EndGroup();
+                
+                GUI.Box(new Rect(Screen.width-275, 1, 256, 512),new GUIContent()); 
+                GUI.Label(new Rect(Screen.width-275, 1, 256, 512), GUI.tooltip);
             }
+            
+            
         }
 
-        private void invWindowFunc(int winId)
-        {
-            //Debug.Log(ItemRegMan.items.Count);
-            for (int i = 0; i < invItems.Count; i++)
-            {
-                /*if (GUI.Button(new Rect(i*136,15,128,128), invItems[i].name))
-                {
-                    Debug.Log(invItems[i].name + " :: PRESSED");
-                }*/
-                GUI.Label(new Rect(i*72,24,64,64),invItems[i].name);
-            }
-            GUI.DragWindow(new Rect(0,0,10000,10000));
-        }
+        
     }
 }

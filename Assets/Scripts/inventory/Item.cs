@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace inventory
 {
@@ -14,8 +15,12 @@ namespace inventory
         /// The item's id.
         /// </summary>
         public int id;
-
         
+        /// <summary>
+        /// The item's icon
+        /// </summary>
+        public Texture itemIcon;
+
 
         /// <summary>
         /// Constructor for the Item object.
@@ -29,12 +34,21 @@ namespace inventory
             this.id = ID;
             
         }
+        
+        public Item(int ID, Texture icon, Dictionary<string, object> ItemData = null)
+        {
+            this.data = ItemData;
+            this.id = ID;
+            this.itemIcon = icon;
+
+        }
 
         public Item()
         {
             this.data = null;
             this.id = -1;
-            
+            this.itemIcon = null;
+
         }
 
         /// <summary>
