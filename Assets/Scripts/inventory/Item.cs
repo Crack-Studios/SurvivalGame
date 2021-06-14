@@ -15,10 +15,7 @@ namespace inventory
         /// </summary>
         public int id;
 
-        /// <summary>
-        /// The item's name.
-        /// </summary>
-        public string name;
+        
 
         /// <summary>
         /// Constructor for the Item object.
@@ -26,18 +23,18 @@ namespace inventory
         /// <param name="ID"></param>
         /// <param name="Name"></param>
         /// <param name="ItemData"></param>
-        public Item(int ID, string Name, Dictionary<string, object> ItemData = null)
+        public Item(int ID, Dictionary<string, object> ItemData = null)
         {
             this.data = ItemData;
             this.id = ID;
-            this.name = Name;
+            
         }
 
         public Item()
         {
             this.data = null;
             this.id = -1;
-            this.name = "NOTNAMED";
+            
         }
 
         /// <summary>

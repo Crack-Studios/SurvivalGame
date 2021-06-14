@@ -37,7 +37,7 @@ namespace inventory
                     Debug.Log(invItems[i].name + " :: PRESSED");
                 }
             }
-            GUI.DragWindow(new Rect(0,0,1000,1000));
+            GUI.DragWindow(new Rect(0,0,10000,10000));
         }
     }
 }
