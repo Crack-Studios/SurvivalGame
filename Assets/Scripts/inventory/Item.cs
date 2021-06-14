@@ -21,6 +21,8 @@ namespace inventory
         /// </summary>
         public Texture itemIcon;
 
+        public bool showIcon = true;
+
 
         /// <summary>
         /// Constructor for the Item object.
