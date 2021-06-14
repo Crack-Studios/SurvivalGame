@@ -14,6 +14,8 @@ namespace inventory
 
         public Texture slotTexture;
 
+        public ItemStack draggedItem = null;
+
         public void Update()
         {
             if (Input.GetKeyDown(KeyCode.E))
@@ -27,7 +29,8 @@ namespace inventory
             if (isOpen)
             {
                 
-                GUI.BeginGroup(new Rect(100,10,Screen.width-300,Screen.height-200));
+                GUI.BeginGroup(new Rect(100,10,Screen.width-325,Screen.height-200));
+                GUI.Box(new Rect(0,0,Screen.width-325,Screen.height-200),new GUIContent()); 
                 
                 for (int i = 0; i < invItems.Count; i++)
                 {
@@ -38,8 +41,8 @@ namespace inventory
 
                 
                 
-                    GUI.BeginGroup(new Rect(i*36,24,32,32), new GUIContent("","Item name: "+invItems[i].name+"\n\n\n"+String.Join("\n",invItems[i].description)));
-                
+                    GUI.BeginGroup(new Rect(i*36,24,32,32), new GUIContent("","Item name: "+invItems[i].name+"\n\nDescription:\n"+String.Join("\n",invItems[i].description)));
+                    
                     GUI.DrawTexture(new Rect(0,0,32,32), slotTexture, ScaleMode.StretchToFill);
                     if (invItems[i].itemIcon)
                     {
@@ -49,7 +52,30 @@ namespace inventory
                     {
                         GUI.Label(new Rect(0,0,32,32),invItems[i].name);
                     }
-                
+                    
+                    Event e = Event.current;
+                    if (e.type == EventType.MouseDown)
+                    {
+                        Debug.Log("MIODONOIOO");
+                        if (new Rect(i*36,24+10,32,32).Contains(e.mousePosition) && draggedItem == null)
+                        {
+                            Debug.Log("ELFOGATTA");
+                            draggedItem = invItems[i];
+                            invItems[i] = null;
+                        }
+                    }
+
+                    if (e.type == EventType.MouseUp)
+                    {
+                        Debug.Log("MIOIPPO");
+                        if (new Rect(100,10,Screen.width-325,Screen.height-200).Contains(e.mousePosition) && draggedItem != null)
+                        {
+                            Debug.Log("gfofoaa");
+                            
+                            invItems[i] = draggedItem;
+                            draggedItem = null;
+                        }
+                    }
                 
                     GUI.EndGroup();
                 
