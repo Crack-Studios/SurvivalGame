@@ -32,10 +32,11 @@ namespace inventory
             //Debug.Log(ItemRegMan.items.Count);
             for (int i = 0; i < invItems.Count; i++)
             {
-                if (GUI.Button(new Rect(i*136,15,128,128), invItems[i].name))
+                /*if (GUI.Button(new Rect(i*136,15,128,128), invItems[i].name))
                 {
                     Debug.Log(invItems[i].name + " :: PRESSED");
-                }
+                }*/
+                GUI.Label(new Rect(i*72,24,64,64),invItems[i].name);
             }
             GUI.DragWindow(new Rect(0,0,10000,10000));
         }
