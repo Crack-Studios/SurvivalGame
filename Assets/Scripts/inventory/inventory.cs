@@ -16,7 +16,9 @@ namespace inventory
 
         public Texture slotTexture;
 
-        public ItemStack draggedItem = null;
+        public ItemStack draggedItem;
+
+        public int dragSlotStart;
 
         public void Start()
         {
@@ -33,9 +35,22 @@ namespace inventory
 
         public void RenderDraggedItem()
         {
-            GUI.BeginGroup(new Rect(Event.current.mousePosition.x-32, Event.current.mousePosition.y-32, 64, 64));
+            GUI.BeginGroup(new Rect(Event.current.mousePosition.x-16, Event.current.mousePosition.y-16, 32, 32));
+
+            if (draggedItem.itemIcon)
+            {
+                GUI.DrawTexture(new Rect(0,0,32,32), draggedItem.itemIcon, ScaleMode.StretchToFill);
+                
+            }
+            else
+            {
+                GUI.Label(new Rect(0,0,32,32), draggedItem.name);
+            }
+
+            GUIStyle style = new GUIStyle();
+            style.alignment = TextAnchor.LowerRight;
             
-            
+            GUI.Label(new Rect(0,0,32,32), "x"+draggedItem.count.ToString(), style);
             
             GUI.EndGroup();
         }
@@ -56,18 +71,14 @@ namespace inventory
                     }*/
 
 
-                    if (invItems[i] != null)
-                    {
-                        GUI.BeginGroup(new Rect(i*36,24,32,32), new GUIContent("","Item name: "+invItems[i].name+"\n\nDescription:\n"+String.Join("\n",invItems[i].description)));
-                    }
-                    else
-                    {
-                        GUI.BeginGroup(new Rect(i*36,24,32,32), new GUIContent(""));
-                    }
+                    
+                    GUI.BeginGroup(new Rect(i*36,24,32,32), new GUIContent("","Item name: "+invItems[i].name+"\n\nDescription:\n"+String.Join("\n",invItems[i].description)));
+                    
+                    
                     
                     
                     GUI.DrawTexture(new Rect(0,0,32,32), slotTexture, ScaleMode.StretchToFill);
-                    if (invItems[i].itemIcon)
+                    if (invItems[i].itemIcon != null)
                     {
                         GUI.DrawTexture(new Rect(0,0,32,32), invItems[i].itemIcon);
                     }
@@ -77,25 +88,33 @@ namespace inventory
                     }
                     
                     Event e = Event.current;
-                    if (e.type == EventType.MouseDown && draggedItem == null && invItems[i].id != 0)
+                   // Debug.Log(draggedItem.name);
+                    //Debug.Log(invItems[i].id);
+                    if (e.type == EventType.MouseDown && draggedItem.id == 0 && invItems[i].id != 0)
                     {
                         
                         Debug.Log("ELFOGATTA");
                         draggedItem = invItems[i];
-                        invItems[i] = null;
+                        dragSlotStart = i;
+                        invItems[i] = itemReg.Items[0];
                         
                     }
 
-                    if (e.type == EventType.MouseUp && draggedItem != null && invItems[i].id == 0)
+                    if (e.type == EventType.MouseUp && draggedItem.id != 0 && invItems[i].id == 0)
                     {
                         
                         
                         Debug.Log("gfofoaa");
                             
                         invItems[i] = draggedItem; 
-                        draggedItem = null;
+                        draggedItem = itemReg.Items[0];
                         
                     }
+                    
+                    GUIStyle style = new GUIStyle();
+                    style.alignment = TextAnchor.LowerRight;
+            
+                    GUI.Label(new Rect(0,0,32,32), "x"+invItems[i].count.ToString(), style);
                 
                     GUI.EndGroup();
                 
@@ -107,6 +126,18 @@ namespace inventory
                 
                 GUI.Box(new Rect(Screen.width-275, 1, 256, 512),new GUIContent()); 
                 GUI.Label(new Rect(Screen.width-275, 1, 256, 512), GUI.tooltip);
+                
+                Event ee = Event.current;
+                if (ee.type == EventType.MouseUp && draggedItem.id != 0)
+                {
+                        
+                        
+                    
+                            
+                    invItems[dragSlotStart] = draggedItem; 
+                    draggedItem = itemReg.Items[0];
+                        
+                }
                 
                 RenderDraggedItem();
             }

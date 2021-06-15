@@ -14,11 +14,9 @@ public class ItemRegistry : MonoBehaviour
     
     void Start()
     {
-        ItemStack item = new ItemStack(0,"Air");
-        item.showIcon = false;
-        Items.Add(item);
         
-        
+
+
     }
 
     // Update is called once per frame
